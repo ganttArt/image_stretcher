@@ -1,7 +1,13 @@
 '''
     Incremental Pixel Stretcher
+
+    Need to add some kind of smoothing
+    
+    In photoshop an image can be stretched/transformed 10 pixels 
+    but still have a smooth look once transformed
 '''
 import datetime
+import math
 from PIL import Image
 import numpy as np
 
@@ -14,10 +20,20 @@ def create_np_array(file):
 
 
 def create_index_list(np_array):
+
+
+    # original
     index_list = []
     for num in range(len(np_array)):
         for _ in range(num+1):
             index_list.append(num)
+
+    # 2019-08-08
+    # index_list = [0]
+    # # for num in range(len(np_array)):
+    # #     for _ in range(num*num):
+    # #         index_list.append(num)
+
     return index_list
 
 
@@ -33,7 +49,7 @@ def build_new_image(index_list, source_image):
 def save_file(pil_image):
     now = datetime.datetime.now()
     pil_image.save(f'ps{now.year}{now.month}{now.day}_'+
-                   f'{now.hour}{now.minute}{now.second}.png')
+                   f'{now.hour}{now.minute}{now.second}.jpg')
 
 
 if __name__ == '__main__':
@@ -41,4 +57,5 @@ if __name__ == '__main__':
     INDEX_LIST = create_index_list(IMG_ARRAY)
     # print(INDEX_LIST)
     NEW_IMG = build_new_image(INDEX_LIST, IMG_ARRAY)
-    save_file(NEW_IMG)
+    NEW_IMG.show()
+    # save_file(NEW_IMG)
