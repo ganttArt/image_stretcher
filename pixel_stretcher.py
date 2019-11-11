@@ -11,8 +11,7 @@ import math
 from PIL import Image
 import numpy as np
 
-FILENAME = '5.fb.20190424.jpg'
-# FILENAME = '14h15w.png'
+FILENAME = '10w6h.jpg'
 
 def create_np_array(file):
     img = Image.open(file, 'r')
