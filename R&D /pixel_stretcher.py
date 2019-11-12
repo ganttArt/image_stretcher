@@ -54,7 +54,7 @@ def save_file(pil_image):
 if __name__ == '__main__':
     IMG_ARRAY = create_np_array(FILENAME)
     INDEX_LIST = create_index_list(IMG_ARRAY)
-    # print(INDEX_LIST)
+    print(INDEX_LIST)
     NEW_IMG = build_new_image(INDEX_LIST, IMG_ARRAY)
     NEW_IMG.show()
     # save_file(NEW_IMG)
