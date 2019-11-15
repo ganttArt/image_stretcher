@@ -51,8 +51,8 @@ def build_new_image(index_list, source_image):
 
     for num in range(1, new_image.shape[0]):
         two_row_array = np.zeros((2, new_image.shape[1], 3))
-        two_row_array[0] += source_image[num-1]
-        two_row_array[1] += source_image[num]
+        two_row_array[0] += source_image[num]
+        two_row_array[1] += source_image[num+1]
         gradient_array = create_gradient(two_row_array, num)
         try:
             for number in range(gradient_array.shape[0] - 1):
@@ -62,10 +62,8 @@ def build_new_image(index_list, source_image):
             print(e)
             break
 
-
     int_array = new_image.astype(np.uint8)
 
-    # print(int_array)
     return Image.fromarray(int_array)
 
 
@@ -80,5 +78,5 @@ if __name__ == '__main__':
     INDEX_LIST = create_index_list(IMG_ARRAY)
     # print(INDEX_LIST)
     NEW_IMG = build_new_image(INDEX_LIST, IMG_ARRAY)
-    # NEW_IMG.show()
-    save_file(NEW_IMG)
+    NEW_IMG.show()
+    # save_file(NEW_IMG)
