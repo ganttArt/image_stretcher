@@ -5,7 +5,7 @@ import math
 from PIL import Image
 import numpy as np
 
-FILENAME = '1.jpg'
+FILENAME = 'waterfall.jpg'
 
 def create_np_array(file):
     '''converts a jpg to a numpy array'''
@@ -14,16 +14,22 @@ def create_np_array(file):
 
 
 def create_index_list(np_array):
-    '''[0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4]'''
-
+    '''
+    Returns:
+        list
+    '''
+    # alternate approach
+    # thirteen_for_all = [[1,13], [2,13], [3,13], [5,13], [8,13], [13,13], [21,13], [34,13], [55,13]]
+    
     #fibonacci style
-    #both of these work nicely, only changing the first tuple
-    tup = ((1,20), (2,8), (3,5), (5,3), (8,2), (13,1), (21,1), (34,1), (55,1), (89,1), (144,1), (233,1))
-    # tup = ((1,13), (2,8), (3,5), (5,3), (8,2), (13,1), (21,1), (34,1), (55,1), (89,1), (144,1), (233,1))
+    multiplication_factor = 1
+    pairs = [[1,13], [2,8], [3,5], [5,3], [8,2], [13,1], [21,1], [34,1], [55,1], [89,1], [144,1], [233,1], [377,1]]
+    for pair in pairs:
+        pair[0] = pair[0] * 1
+        pair[1] = pair[1] * multiplication_factor
 
     index_list = []
-
-    for pair in tup:
+    for pair in pairs:
         for _ in range(pair[1]):
             index_list.append(pair[0])
 
@@ -93,7 +99,6 @@ def save_file(pil_image):
 if __name__ == '__main__':
     IMG_ARRAY = create_np_array(FILENAME)
     INDEX_LIST = create_index_list(IMG_ARRAY)
-    # print(INDEX_LIST)
     NEW_IMG = build_new_image(INDEX_LIST, IMG_ARRAY)
     # NEW_IMG.show()
     save_file(NEW_IMG)
