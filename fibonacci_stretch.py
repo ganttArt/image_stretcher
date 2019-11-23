@@ -1,11 +1,11 @@
-'''incremental_image_stretcher.py '''
+'''fibonacci_stretch.py'''
 
 import datetime
 import math
 from PIL import Image
 import numpy as np
 
-FILENAME = 'waterfall.jpg'
+FILENAME = 'upside.jpg'
 
 def create_np_array(file):
     '''converts a jpg to a numpy array'''
@@ -22,7 +22,7 @@ def create_index_list(np_array):
     # thirteen_for_all = [[1,13], [2,13], [3,13], [5,13], [8,13], [13,13], [21,13], [34,13], [55,13]]
     
     #fibonacci style
-    multiplication_factor = 1
+    multiplication_factor = 2
     pairs = [[1,13], [2,8], [3,5], [5,3], [8,2], [13,1], [21,1], [34,1], [55,1], [89,1], [144,1], [233,1], [377,1]]
     for pair in pairs:
         pair[0] = pair[0] * 1
