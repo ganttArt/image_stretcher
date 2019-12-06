@@ -17,7 +17,6 @@ def find_average(np_array):
         returns list with rgb averages for the last row
         [int, int, int]
     '''
-    # can probably find a more elegant way to write this one using np sums
     red_value = 0
     green_value = 0
     blue_value = 0
@@ -39,13 +38,6 @@ def build_image(averages, np_array):
     new_image = np.zeros(((np_array.shape[0] * 3),
                            np_array.shape[1],
                            3))
-    
-
-    # fill new image with original image
-    # for num in range(np_array.shape[0]):
-    #     new_image[num] += np_array[num]
-
-
 
     # create gradient
     gradient_length = np_array.shape[0]
@@ -67,7 +59,8 @@ def build_image(averages, np_array):
                 else:
                     gradient_array[num+1][row][column] += (gradient_array[0][row][column] + ((diff_array[row][column])/(gradient_length+1)*(num+1)))
 
-    #create solid color row
+
+    # create solid color row
     solid_color_row = np.zeros((1, image_width, 3))
     for num in range(image_width):
         solid_color_row[0][num] += averages
@@ -78,16 +71,16 @@ def build_image(averages, np_array):
         new_image[num] += np_array[num]
 
     for num in range(gradient_length + 1):
-    # for num in range(gradient_length + 1, gradient_length * 2)
         new_image[num + gradient_length] += gradient_array[num]
 
     for num in range(gradient_length * 2 + 1, gradient_length * 3):
         new_image[num] += solid_color_row[0]
 
 
+    # convert to integers and return PIL Image
     int_array = new_image.astype(np.uint8)
-
     return Image.fromarray(int_array)
+
 
 def main():
     IMG_ARRAY = create_np_array(FILENAME)
@@ -95,12 +88,5 @@ def main():
     NEW_IMG = build_image(AVERAGES, IMG_ARRAY)
     NEW_IMG.show()
 
-
-
-
-
 if __name__ == '__main__':
     main()
-
-
-'''future, instead of averages try going to the most saturated pixel color in the last row, or choose a random ''' 
