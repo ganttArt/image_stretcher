@@ -14,10 +14,9 @@ def create_np_array(file):
 
 def find_average_for_all_pixels(np_array):
     '''
-        returns list with rgb averages for the last row
+        returns list with rgb averages for all pixels
         [int, int, int]
     '''
-    # can probably find a more elegant way to write this one using np sums
     red_value = 0
     green_value = 0
     blue_value = 0
@@ -35,6 +34,10 @@ def find_average_for_all_pixels(np_array):
     blue_value = int(blue_value / total_pixels)
 
     return [red_value, green_value, blue_value]
+
+
+def build_image(averages, np_array):
+
 
 def main():
     IMG_ARRAY = create_np_array(FILENAME)
