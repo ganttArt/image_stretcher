@@ -12,7 +12,7 @@ def create_np_array(pil_image):
     return np.array(pil_image)
 
 
-def create_index_list(np_array, multiplication_factor=1):
+def create_index_list(np_array, multiplication_factor=1, rate_value=1):
     '''
     Returns:
         list
@@ -20,7 +20,7 @@ def create_index_list(np_array, multiplication_factor=1):
     #fibonacci style
     pairs = [[1,13], [2,8], [3,5], [5,3], [8,2], [13,1], [21,1], [34,1], [55,1], [89,1], [144,1], [233,1], [377,1]]
     for pair in pairs:
-        pair[0] = pair[0] * 1
+        pair[0] = pair[0] * rate_value
         pair[1] = pair[1] * multiplication_factor
 
     index_list = []
