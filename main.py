@@ -1,74 +1,91 @@
-'''
-main.py
-functions to use with gui
-'''
-
-from PIL import Image
-import numpy as np
+from tkinter import ttk, filedialog, messagebox, StringVar, PhotoImage, Tk
+from PIL import Image, ImageTk
+from stretching_functions import create_np_array, create_index_list, build_new_image
 
 
-def create_np_array(pil_image):
-    '''converts a jpg to a numpy array'''
-    return np.array(pil_image)
+class Gui:
+    def __init__(self, master):
+
+        self.image_frame = ttk.Frame(master)
+        self.image_frame.pack(side='left', anchor='nw')
+
+        self.art = PhotoImage(file='intro_image.gif')
+        self.art_label = ttk.Label(self.image_frame, image=self.art)
+        self.art_label.grid(row=0, column=0)
+
+        self.widget_frame = ttk.Frame(master)
+        self.widget_frame.pack(side='right', anchor='ne', padx=10, pady=10)
+
+        self.open_button = ttk.Button(self.widget_frame, text="Open", command=self.open_image)
+        self.open_button.grid(row=0, column=1)
+
+        self.save_button = ttk.Button(self.widget_frame, text="Save", command=self.save_image)
+        self.save_button.grid(row=0, column=2, pady=4)
+
+        ttk.Label(self.widget_frame, text='      Intensity').grid(row=1, column=1)
+        self.intensity_value = StringVar()
+        self.intensity_value.set("1")
+        self.intensity_spinbox = ttk.Spinbox(self.widget_frame, from_=1, to=10, width=5,
+                                             textvariable=self.intensity_value,
+                                             command=self.stretch_image)
+        self.intensity_spinbox.grid(row=1, column=2, pady=0)
 
 
-def create_index_list(np_array, multiplication_factor=1, rate_value=1):
-    '''
-    Returns:
-        list
-    '''    
-    #fibonacci style
-    pairs = [[1,13], [2,8], [3,5], [5,3], [8,2], [13,1], [21,1], [34,1], [55,1], [89,1], [144,1], [233,1], [377,1]]
-    for pair in pairs:
-        pair[0] = pair[0] * rate_value
-        pair[1] = pair[1] * multiplication_factor
+        ttk.Label(self.widget_frame, text='           Rate').grid(row=2, column=1)
+        self.rate_value = StringVar()
+        self.rate_value.set("1")
+        self.rate_spinbox = ttk.Spinbox(self.widget_frame, from_=1, to=50, width=5,
+                                        textvariable=self.rate_value,
+                                        command=self.stretch_image)
+        self.rate_spinbox.grid(row=2, column=2)
 
-    index_list = []
-    for pair in pairs:
-        for _ in range(pair[1]):
-            index_list.append(pair[0])
 
-    return index_list
+        self.starting_point_slider = ttk.Scale(self.widget_frame, orient='vertical')
+        self.starting_point_slider.grid(row=0, column=0, rowspan=3)
 
-def create_gradient(two_row_array, gradient_size):
-    image_width = two_row_array.shape[1]
-    gradient_array = np.zeros((gradient_size+2, image_width, 3))
-    gradient_array[0] += two_row_array[0]
-    gradient_array[-1] += two_row_array[-1]
-    difference_array = abs(gradient_array[0] - gradient_array[-1])
+        self.unprocessed_jpg = None
+        self.processed_image = None
 
-    for num in range(gradient_size):
-        for row in range(image_width):
-            for column in range(3):
-                if gradient_array[0][row][column] >= gradient_array[-1][row][column]:
-                    gradient_array[num+1][row][column] += (gradient_array[0][row][column] - ((difference_array[row][column])/(gradient_size+1)*(num+1)))
-                else:
-                    gradient_array[num+1][row][column] += (gradient_array[0][row][column] + ((difference_array[row][column])/(gradient_size+1)*(num+1)))
-    return gradient_array
-
-def build_new_image(index_list, source_image):
-    '''
-    index_list : list
-    source_image : numpy array
-    '''
-    index_value = 1
-    
-    new_image = np.zeros((source_image.shape))
-    new_image[0] += source_image[0]
-
-    for num in range(1, new_image.shape[0]):
-        two_row_array = np.zeros((2, new_image.shape[1], 3))
-        two_row_array[0] += source_image[num]
-        two_row_array[1] += source_image[num+1]
-        gradient_array = create_gradient(two_row_array, index_list[num])
+    def stretch_image(self):
         try:
-            for number in range(gradient_array.shape[0] - 1):
-                new_image[index_value] += gradient_array[number]
-                index_value += 1
-        except IndexError as e:
-            # print(e)
-            break
+            img_array = create_np_array(self.unprocessed_jpg)
+            index_list = create_index_list(img_array,
+                                           int(self.intensity_value.get()),
+                                           int(self.rate_value.get()))
+            self.processed_image = build_new_image(index_list, img_array)
+            self.art = ImageTk.PhotoImage(self.processed_image)
+            self.art_label = ttk.Label(self.image_frame, image=self.art)
+            self.art_label.grid(row=0, column=0)
+        except AttributeError:
+            # exception handling for trying to change variables before opening initial image
+            messagebox.showerror("Error", "Please open an image file before stretching")
+            self.intensity_value.set("1")
+            self.rate_value.set("1")
 
-    int_array = new_image.astype(np.uint8)
+    def open_image(self):
+        filename = filedialog.askopenfilename()
 
-    return Image.fromarray(int_array)
+        try: #checking for non-jpg files
+            jpg_image = Image.open(filename)
+            if jpg_image.format != 'JPEG':
+                jpg_image = jpg_image.convert('RGB')
+        except Exception as ex:
+            print(ex)
+            messagebox.showerror("Error", "Image files only please!")
+
+        self.unprocessed_jpg = jpg_image
+        self.stretch_image()
+
+    def save_image(self):
+        save_filename = filedialog.asksaveasfilename(defaultextension='*.jpg')
+        self.processed_image.save(save_filename)
+
+
+def main():
+    root = Tk()
+    Gui(root)
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
