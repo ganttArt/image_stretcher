@@ -7,7 +7,7 @@ class Gui:
     def __init__(self, master):
 
         self.image_frame = ttk.Frame(master)
-        self.image_frame.pack(side='left', anchor='nw')
+        self.image_frame.pack(side='left', anchor='nw', padx=10, pady=10)
 
         self.art = PhotoImage(file='intro_image.gif')
         self.art_label = ttk.Label(self.image_frame, image=self.art)
@@ -40,8 +40,11 @@ class Gui:
         self.rate_spinbox.grid(row=2, column=2)
 
 
-        self.starting_point_slider = ttk.Scale(self.widget_frame, orient='vertical')
-        self.starting_point_slider.grid(row=0, column=0, rowspan=3)
+        self.starting_point_slider = ttk.Scale(self.widget_frame, orient='vertical',
+                                               from_=1, to=int(self.art.height()),
+                                               command=self.print_value,
+                                               length=int(self.art.height()))
+        self.starting_point_slider.grid(row=0, column=0, rowspan=100)
 
         self.unprocessed_jpg = None
         self.processed_image = None
@@ -74,12 +77,21 @@ class Gui:
             messagebox.showerror("Error", "Image files only please!")
 
         self.unprocessed_jpg = jpg_image
+
+        self.starting_point_slider = ttk.Scale(self.widget_frame, orient='vertical',
+                                               from_=1, to=self.unprocessed_jpg.size[1],
+                                               command=self.print_value,
+                                               length=self.unprocessed_jpg.size[1])
+        self.starting_point_slider.grid(row=0, column=0, rowspan=100)
+
         self.stretch_image()
 
     def save_image(self):
         save_filename = filedialog.asksaveasfilename(defaultextension='*.jpg')
         self.processed_image.save(save_filename)
 
+    def print_value(self, *args):
+        print(int(self.starting_point_slider.get()))
 
 def main():
     root = Tk()
