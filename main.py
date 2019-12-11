@@ -27,7 +27,8 @@ class Gui:
         self.intensity_value.set("1")
         self.intensity_spinbox = ttk.Spinbox(self.widget_frame, from_=1, to=10, width=5,
                                              textvariable=self.intensity_value,
-                                             command=self.stretch_image)
+                                             # command=self.stretch_image
+                                             )
         self.intensity_spinbox.grid(row=1, column=2, pady=0)
 
 
@@ -36,15 +37,21 @@ class Gui:
         self.rate_value.set("1")
         self.rate_spinbox = ttk.Spinbox(self.widget_frame, from_=1, to=50, width=5,
                                         textvariable=self.rate_value,
-                                        command=self.stretch_image)
+                                        # command=self.stretch_image
+                                        )
         self.rate_spinbox.grid(row=2, column=2)
 
 
         self.starting_point_slider = ttk.Scale(self.widget_frame, orient='vertical',
                                                from_=1, to=int(self.art.height()),
-                                               command=self.print_value,
+                                               # command=self.print_value,
                                                length=int(self.art.height()))
         self.starting_point_slider.grid(row=0, column=0, rowspan=100)
+
+        self.animate_button = ttk.Button(self.widget_frame, text="Animate",
+                                         command=self.stretch_image
+                                         )
+        self.animate_button.grid(row=3, column=1, columnspan=2)
 
         self.unprocessed_jpg = None
         self.processed_image = None
@@ -55,7 +62,7 @@ class Gui:
             index_list = create_index_list(img_array,
                                            int(self.intensity_value.get()),
                                            int(self.rate_value.get()))
-            self.processed_image = build_new_image(index_list, img_array)
+            self.processed_image = build_new_image(index_list, img_array, self.starting_point_slider.get())
             self.art = ImageTk.PhotoImage(self.processed_image)
             self.art_label = ttk.Label(self.image_frame, image=self.art)
             self.art_label.grid(row=0, column=0)
@@ -92,6 +99,7 @@ class Gui:
 
     def print_value(self, *args):
         print(int(self.starting_point_slider.get()))
+
 
 def main():
     root = Tk()

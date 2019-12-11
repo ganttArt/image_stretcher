@@ -1,0 +1,9 @@
+Next:
+getting rid of print for starting point slider values
+take away rate
+add random button
+inverse the numbers for intensity
+
+
+Someday ?:
+adding fibonacci based gradient to stretch
