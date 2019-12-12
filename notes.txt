@@ -1,12 +1,8 @@
 Next:
-X getting rid of print for starting point slider values
-take away rate
-add random button
-X inverse the numbers for intensity
-
 improving the variables and fibonacci sequence to better adapt for changing variables
 improving time taken to stretch
 
 
 Someday ?:
+up, down, right, left stretching
 adding fibonacci based gradient to stretch

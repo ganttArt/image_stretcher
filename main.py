@@ -1,7 +1,7 @@
 from tkinter import ttk, filedialog, messagebox, StringVar, PhotoImage, Tk
 from PIL import Image, ImageTk
 from stretching_functions import create_np_array, create_index_list, build_new_image
-
+import random
 
 class Gui:
     def __init__(self, master):
@@ -41,6 +41,10 @@ class Gui:
         #                                 )
         # self.rate_spinbox.grid(row=2, column=2)
 
+        self.random_button = ttk.Button(self.widget_frame, text='Random',
+                                        command=self.random_stretch)
+        self.random_button.grid(row=2, column=1, columnspan=2)
+
 
         self.starting_point_slider = ttk.Scale(self.widget_frame, orient='vertical',
                                                from_=1, to=int(self.art.height()),
@@ -62,7 +66,8 @@ class Gui:
                                            int(self.intensity_value.get()),
                                            # int(self.rate_value.get())
                                            )
-            self.processed_image = build_new_image(index_list, img_array, self.starting_point_slider.get())
+            self.processed_image = build_new_image(index_list, img_array,
+                                                   self.starting_point_slider.get())
             self.art = ImageTk.PhotoImage(self.processed_image)
             self.art_label = ttk.Label(self.image_frame, image=self.art)
             self.art_label.grid(row=0, column=0)
@@ -96,6 +101,11 @@ class Gui:
     def save_image(self):
         save_filename = filedialog.asksaveasfilename(defaultextension='*.jpg')
         self.processed_image.save(save_filename)
+
+    def random_stretch(self):
+        self.starting_point_slider.set(random.randint(1, self.unprocessed_jpg.size[1]))
+        self.intensity_value.set(random.randint(1,10))
+        self.stretch_image()
 
 
 def main():
