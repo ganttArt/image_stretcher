@@ -24,7 +24,7 @@ class Gui:
 
         ttk.Label(self.widget_frame, text='      Intensity').grid(row=1, column=1)
         self.intensity_value = StringVar()
-        self.intensity_value.set("1")
+        self.intensity_value.set("10")
         self.intensity_spinbox = ttk.Spinbox(self.widget_frame, from_=1, to=10, width=5,
                                              textvariable=self.intensity_value,
                                              # command=self.stretch_image
@@ -32,19 +32,18 @@ class Gui:
         self.intensity_spinbox.grid(row=1, column=2, pady=0)
 
 
-        ttk.Label(self.widget_frame, text='           Rate').grid(row=2, column=1)
-        self.rate_value = StringVar()
-        self.rate_value.set("1")
-        self.rate_spinbox = ttk.Spinbox(self.widget_frame, from_=1, to=50, width=5,
-                                        textvariable=self.rate_value,
-                                        # command=self.stretch_image
-                                        )
-        self.rate_spinbox.grid(row=2, column=2)
+        # ttk.Label(self.widget_frame, text='           Rate').grid(row=2, column=1)
+        # self.rate_value = StringVar()
+        # self.rate_value.set("1")
+        # self.rate_spinbox = ttk.Spinbox(self.widget_frame, from_=1, to=50, width=5,
+        #                                 textvariable=self.rate_value,
+        #                                 # command=self.stretch_image
+        #                                 )
+        # self.rate_spinbox.grid(row=2, column=2)
 
 
         self.starting_point_slider = ttk.Scale(self.widget_frame, orient='vertical',
                                                from_=1, to=int(self.art.height()),
-                                               # command=self.print_value,
                                                length=int(self.art.height()))
         self.starting_point_slider.grid(row=0, column=0, rowspan=100)
 
@@ -61,7 +60,8 @@ class Gui:
             img_array = create_np_array(self.unprocessed_jpg)
             index_list = create_index_list(img_array,
                                            int(self.intensity_value.get()),
-                                           int(self.rate_value.get()))
+                                           # int(self.rate_value.get())
+                                           )
             self.processed_image = build_new_image(index_list, img_array, self.starting_point_slider.get())
             self.art = ImageTk.PhotoImage(self.processed_image)
             self.art_label = ttk.Label(self.image_frame, image=self.art)
@@ -69,8 +69,8 @@ class Gui:
         except AttributeError:
             # exception handling for trying to change variables before opening initial image
             messagebox.showerror("Error", "Please open an image file before stretching")
-            self.intensity_value.set("1")
-            self.rate_value.set("1")
+            self.intensity_value.set("10")
+            # self.rate_value.set("1")
 
     def open_image(self):
         filename = filedialog.askopenfilename()
@@ -87,18 +87,15 @@ class Gui:
 
         self.starting_point_slider = ttk.Scale(self.widget_frame, orient='vertical',
                                                from_=1, to=self.unprocessed_jpg.size[1],
-                                               command=self.print_value,
                                                length=self.unprocessed_jpg.size[1])
         self.starting_point_slider.grid(row=0, column=0, rowspan=100)
+        self.starting_point_slider.set(100)
 
         self.stretch_image()
 
     def save_image(self):
         save_filename = filedialog.asksaveasfilename(defaultextension='*.jpg')
         self.processed_image.save(save_filename)
-
-    def print_value(self, *args):
-        print(int(self.starting_point_slider.get()))
 
 
 def main():

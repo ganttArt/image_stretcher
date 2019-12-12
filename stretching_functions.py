@@ -7,18 +7,19 @@ def create_np_array(pil_image):
     return np.array(pil_image)
 
 
-def create_index_list(np_array, multiplication_factor=1, rate_value=1):
+def create_index_list(np_array, multiplication_factor=10):
     '''
     Returns:
         list
-    '''    
+    '''
+    inverse_value_dict = {10:1, 9:2, 8:3, 7:4, 6:5, 5:6, 4:7, 3:8, 2:9, 1:10}
+
     pairs = [[1,13], [2,8], [3,5], [5,3], [8,2], [13,1], [21,1], [34,1], [55,1], [89,1], [144,1],
              [233,1], [377,1], [610, 1], [987, 1]]
-    
-    # if multiplication_factor > 1 or rate_value > 1:
+
     for pair in pairs:
-        pair[0] = pair[0] * rate_value
-        pair[1] = pair[1] * multiplication_factor
+        pair[0] = pair[0] * 1
+        pair[1] = pair[1] * inverse_value_dict[multiplication_factor]
 
     index_list = []
     for pair in pairs:
@@ -26,6 +27,7 @@ def create_index_list(np_array, multiplication_factor=1, rate_value=1):
             index_list.append(pair[0])
 
     return index_list
+
 
 def create_gradient(two_row_array, gradient_size):
     image_width = two_row_array.shape[1]
@@ -42,6 +44,7 @@ def create_gradient(two_row_array, gradient_size):
                 else:
                     gradient_array[num+1][row][column] += (gradient_array[0][row][column] + ((difference_array[row][column])/(gradient_size+1)*(num+1)))
     return gradient_array
+
 
 def build_new_image(index_list, source_image, starting_pixel):
     '''
