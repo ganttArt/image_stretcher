@@ -1,7 +1,13 @@
+import random
+import time
+import logging
 from tkinter import ttk, filedialog, messagebox, StringVar, PhotoImage, Tk
 from PIL import Image, ImageTk
 from stretching_functions import create_np_array, create_index_list, build_new_image
-import random
+
+logging.basicConfig()
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.INFO)
 
 class Gui:
     def __init__(self, master):
@@ -24,8 +30,8 @@ class Gui:
 
         ttk.Label(self.widget_frame, text='      Intensity').grid(row=1, column=1)
         self.intensity_value = StringVar()
-        self.intensity_value.set("10")
-        self.intensity_spinbox = ttk.Spinbox(self.widget_frame, from_=1, to=10, width=5,
+        self.intensity_value.set("13")
+        self.intensity_spinbox = ttk.Spinbox(self.widget_frame, from_=1, to=13, width=5,
                                              textvariable=self.intensity_value,
                                              # command=self.stretch_image
                                              )
@@ -104,7 +110,7 @@ class Gui:
 
     def random_stretch(self):
         self.starting_point_slider.set(random.randint(1, self.unprocessed_jpg.size[1]))
-        self.intensity_value.set(random.randint(1,10))
+        self.intensity_value.set(random.randint(1,13))
         self.stretch_image()
 
 

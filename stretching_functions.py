@@ -7,19 +7,19 @@ def create_np_array(pil_image):
     return np.array(pil_image)
 
 
-def create_index_list(np_array, multiplication_factor=10):
+def create_index_list(np_array, multiplication_factor=13):
     '''
     Returns:
         list
     '''
-    inverse_value_dict = {10:1, 9:2, 8:3, 7:4, 6:5, 5:6, 4:7, 3:8, 2:9, 1:10}
+    inverse_value_dict = {13:1, 12:1.25, 11:1.5, 10:1.75, 9:2, 8:2.25, 7:2.5, 6:2.75, 5:3, 4:3.25, 3:3.5, 2:3.75, 1:4}
 
     pairs = [[1,13], [2,8], [3,5], [5,3], [8,2], [13,1], [21,1], [34,1], [55,1], [89,1], [144,1],
              [233,1], [377,1], [610, 1], [987, 1]]
 
     for pair in pairs:
         pair[0] = pair[0] * 1
-        pair[1] = pair[1] * inverse_value_dict[multiplication_factor]
+        pair[1] = int(pair[1] * inverse_value_dict[multiplication_factor])
 
     index_list = []
     for pair in pairs:
