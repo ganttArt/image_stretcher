@@ -58,7 +58,7 @@ class Gui:
         self.starting_point_slider.grid(row=0, column=0, rowspan=100)
 
         self.animate_button = ttk.Button(self.widget_frame, text="Animate",
-                                         command=self.stretch_image
+                                         command=self.downward_stretch
                                          )
         self.animate_button.grid(row=3, column=1, columnspan=2)
 
@@ -74,14 +74,20 @@ class Gui:
                                            )
             self.processed_image = build_new_image(index_list, img_array,
                                                    self.starting_point_slider.get())
-            self.art = ImageTk.PhotoImage(self.processed_image)
-            self.art_label = ttk.Label(self.image_frame, image=self.art)
-            self.art_label.grid(row=0, column=0)
         except AttributeError:
             # exception handling for trying to change variables before opening initial image
             messagebox.showerror("Error", "Please open an image file before stretching")
             self.intensity_value.set("10")
             # self.rate_value.set("1")
+
+    def display_image(self):
+        self.art = ImageTk.PhotoImage(self.processed_image)
+        self.art_label = ttk.Label(self.image_frame, image=self.art)
+        self.art_label.grid(row=0, column=0)
+
+    def downward_stretch(self):
+        self.stretch_image()
+        self.display_image()
 
     def open_image(self):
         filename = filedialog.askopenfilename()
@@ -103,6 +109,7 @@ class Gui:
         self.starting_point_slider.set(100)
 
         self.stretch_image()
+        self.display_image()
 
     def save_image(self):
         save_filename = filedialog.asksaveasfilename(defaultextension='*.jpg')
@@ -112,6 +119,7 @@ class Gui:
         self.starting_point_slider.set(random.randint(1, self.unprocessed_jpg.size[1]))
         self.intensity_value.set(random.randint(1,13))
         self.stretch_image()
+        self.display_image()
 
 
 def main():
