@@ -45,16 +45,30 @@ class Gui:
                                              textvariable=self.intensity_value,)
         self.intensity_spinbox.grid(row=1, column=2, pady=0)
 
+        self.orientation = StringVar()
+        self.up_rb = ttk.Radiobutton(self.widget_frame, variable=self.orientation,
+                                     value="up", text='Up    ')
+        self.up_rb.grid(row=2, column=1, sticky='e')
+        self.down_rb = ttk.Radiobutton(self.widget_frame, variable=self.orientation,
+                                       value="down", text='Down')
+        self.down_rb.grid(row=3, column=1, sticky='e')
+        self.left_rb = ttk.Radiobutton(self.widget_frame, variable=self.orientation,
+                                       value="left", text='Left')
+        self.left_rb.grid(row=2, column=2, sticky='w')
+        self.right_rb = ttk.Radiobutton(self.widget_frame, variable=self.orientation,
+                                        value="right", text='Right')
+        self.right_rb.grid(row=3, column=2, sticky='w')
+        self.orientation.set('down')
 
         self.random_button = ttk.Button(self.widget_frame, text='Random',
                                         command=self.random_stretch)
-        self.random_button.grid(row=2, column=1, columnspan=2)
+        self.random_button.grid(row=4, column=1, columnspan=2)
 
 
         self.animate_button = ttk.Button(self.widget_frame, text="Animate",
                                          command=self.downward_stretch
                                          )
-        self.animate_button.grid(row=3, column=1, columnspan=2)
+        self.animate_button.grid(row=5, column=1, columnspan=2)
 
         self.unprocessed_jpg = None
         self.processed_image = None
