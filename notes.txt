@@ -1,8 +1,9 @@
 Next:
-improving the variables and fibonacci sequence to better adapt for changing variables
-improving time taken to stretch
+up, down, right, left stretching
+resizing for images too large for the screen
 
+improving time taken to stretch
+opening screen stretch effect
 
 Someday ?:
-up, down, right, left stretching
 adding fibonacci based gradient to stretch
