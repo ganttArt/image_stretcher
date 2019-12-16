@@ -70,10 +70,10 @@ class Gui:
         self.random_button.grid(row=4, column=1, columnspan=2)
 
 
-        self.animate_button = ttk.Button(self.widget_frame, text="Animate",
-                                         command=self.left_stretch
+        self.stretch_button = ttk.Button(self.widget_frame, text="Stretch!",
+                                         command=self.update_stretch
                                          )
-        self.animate_button.grid(row=5, column=1, columnspan=2)
+        self.stretch_button.grid(row=5, column=1, columnspan=2)
 
 
         self.unprocessed_jpg = None
@@ -83,6 +83,12 @@ class Gui:
         self.art = ImageTk.PhotoImage(self.processed_image)
         self.art_label = ttk.Label(self.image_frame, image=self.art)
         self.art_label.grid(row=0, column=0)
+
+    def update_stretch(self):
+        direction = self.orientation.get()
+        direction_dict = {'up': self.upward_stretch, 'down': self.downward_stretch,
+                          'left': self.left_stretch, 'right': self.right_stretch}
+        direction_dict[direction]()
 
     def downward_stretch(self):
         img_array = create_np_array(self.unprocessed_jpg)
@@ -155,10 +161,15 @@ class Gui:
         self.processed_image.save(save_filename)
 
     def random_stretch(self):
-        self.vertical_slider.set(random.randint(1, self.unprocessed_jpg.size[1]))
-        self.intensity_value.set(random.randint(1,13))
-        print('random not working right now')
-        # self.display_image()
+        direction = random.choice(['up', 'down', 'left', 'right'])
+        if direction == 'up' or direction == 'down':
+            self.vertical_slider.set(random.randint(1, self.unprocessed_jpg.size[1]))
+        else:
+            self.horizontal_slider.set(random.randint(1, self.unprocessed_jpg.size[0]))
+        
+        self.intensity_value.set(random.randint(6,13))
+        self.orientation.set(direction)
+        self.update_stretch()
 
 
 def main():
