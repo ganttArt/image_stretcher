@@ -15,19 +15,25 @@ class Gui:
         self.image_frame = ttk.Frame(master)
         self.image_frame.pack(side='left', anchor='nw', padx=8, pady=8)
 
-        self.art = PhotoImage(file='intro_image.gif')
+        self.unprocessed_jpg = Image.open('Intro_Image_from_fb20190306.jpg')
+        self.art = ImageTk.PhotoImage(self.unprocessed_jpg)
         self.art_label = ttk.Label(self.image_frame, image=self.art)
         self.art_label.grid(row=0, column=0)
+
+        self.vertical_index_list = list(range(0, self.unprocessed_jpg.size[1]))
+        self.horizontal_index_list = list(range(0, self.unprocessed_jpg.size[0]))
 
         self.horizontal_slider = ttk.Scale(self.image_frame, orient='horizontal',
                                            from_=1, to=int(self.art.width()),
                                            length=int(self.art.width()))
         self.horizontal_slider.grid(row=1, column=0)
+        self.horizontal_slider.set(220)
 
         self.vertical_slider = ttk.Scale(self.image_frame, orient='vertical',
                                          from_=1, to=int(self.art.height()),
                                          length=int(self.art.height()))
         self.vertical_slider.grid(row=0, column=1)
+        self.vertical_slider.set(235)
 
         self.widget_frame = ttk.Frame(master)
         self.widget_frame.pack(anchor='nw', padx=8, pady=8)
@@ -62,7 +68,7 @@ class Gui:
         self.right_rb = ttk.Radiobutton(self.widget_frame, variable=self.orientation,
                                         value="right", text='Right', command=self.right_stretch)
         self.right_rb.grid(row=3, column=2, sticky='w')
-        self.orientation.set('down')
+        self.orientation.set('right')
 
 
         self.random_button = ttk.Button(self.widget_frame, text='Random',
@@ -76,15 +82,13 @@ class Gui:
         self.stretch_button.grid(row=5, column=1, columnspan=2)
 
 
-        self.unprocessed_jpg = None
         self.processed_image = None
+        self.right_stretch()
 
     def display_image(self):
         self.art = ImageTk.PhotoImage(self.processed_image)
         self.art_label = ttk.Label(self.image_frame, image=self.art)
         self.art_label.grid(row=0, column=0)
-        print('Vertical S = ' + str(self.vertical_slider.get()))
-        print('Horizontal S = ' + str(self.horizontal_slider.get()))
 
     def update_stretch(self):
         direction = self.orientation.get()
@@ -138,9 +142,12 @@ class Gui:
         except Exception as ex:
             print(ex)
             messagebox.showerror("Error", "Image files only please!")
-
+        
+        # solves problem of empty space in frame for different shaped images
+        for widget in self.image_frame.winfo_children():
+            widget.destroy()
+        
         self.unprocessed_jpg = jpg_image
-
         self.vertical_slider = ttk.Scale(self.image_frame, orient='vertical',
                                                from_=1, to=self.unprocessed_jpg.size[1],
                                                length=self.unprocessed_jpg.size[1])
@@ -152,11 +159,12 @@ class Gui:
                                            length=self.unprocessed_jpg.size[0])
         self.horizontal_slider.grid(row=1, column=0)
         self.horizontal_slider.set(100)
-
-        self.downward_stretch()
+        self.orientation.set('down')
 
         self.vertical_index_list = list(range(0, self.unprocessed_jpg.size[1]))
         self.horizontal_index_list = list(range(0, self.unprocessed_jpg.size[0]))
+        
+        self.downward_stretch()
 
     def save_image(self):
         save_filename = filedialog.asksaveasfilename(defaultextension='*.jpg')
