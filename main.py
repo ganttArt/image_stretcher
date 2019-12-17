@@ -83,6 +83,8 @@ class Gui:
         self.art = ImageTk.PhotoImage(self.processed_image)
         self.art_label = ttk.Label(self.image_frame, image=self.art)
         self.art_label.grid(row=0, column=0)
+        print('Vertical S = ' + str(self.vertical_slider.get()))
+        print('Horizontal S = ' + str(self.horizontal_slider.get()))
 
     def update_stretch(self):
         direction = self.orientation.get()

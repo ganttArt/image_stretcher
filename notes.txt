@@ -1,9 +1,10 @@
 Next:
-up, down, right, left stretching
 resizing for images too large for the screen
 
 improving time taken to stretch
 opening screen stretch effect
+
+improving random to get more of the types of images I would like to see.
 
 Someday ?:
 adding fibonacci based gradient to stretch
