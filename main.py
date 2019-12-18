@@ -5,15 +5,15 @@ from tkinter import ttk, filedialog, messagebox, StringVar, PhotoImage, Tk
 from PIL import Image, ImageTk
 from stretching_functions import create_np_array, create_index_list, build_new_image
 
-logging.basicConfig()
-LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.INFO)
 
 class Gui:
     def __init__(self, master):
 
         self.image_frame = ttk.Frame(master)
         self.image_frame.pack(side='left', anchor='nw', padx=8, pady=8)
+
+        self.screen_height = master.winfo_screenheight()
+        self.screen_width = master.winfo_screenwidth()
 
         self.unprocessed_jpg = Image.open('Intro_Image_from_fb20190306.jpg')
         self.art = ImageTk.PhotoImage(self.unprocessed_jpg)
@@ -142,7 +142,21 @@ class Gui:
         except Exception as ex:
             print(ex)
             messagebox.showerror("Error", "Image files only please!")
-        
+
+        # image resizing for large images
+        max_height = self.screen_height - 100
+        max_width = self.screen_width - 228
+        img_height = jpg_image.size[1]
+        if img_height > max_height:
+            height_percent = max_height / img_height
+            new_width = int(jpg_image.size[0] * height_percent)
+            if new_width > max_width:
+                width_percentage = max_width / new_width
+                new_height = int(new_width * width_percentage)
+                jpg_image = jpg_image.resize((max_width, new_height), Image.LANCZOS)
+            else:
+                jpg_image = jpg_image.resize((new_width, max_height), Image.LANCZOS)
+
         # solves problem of empty space in frame for different shaped images
         for widget in self.image_frame.winfo_children():
             widget.destroy()
