@@ -1,7 +1,5 @@
 import random
-import time
-import logging
-from tkinter import ttk, filedialog, messagebox, StringVar, PhotoImage, Tk
+from tkinter import ttk, filedialog, messagebox, StringVar, Tk
 from PIL import Image, ImageTk
 from stretching_functions import create_np_array, create_index_list, build_new_image
 
@@ -56,15 +54,15 @@ class Gui:
         self.up_rb = ttk.Radiobutton(self.widget_frame, variable=self.orientation,
                                      value="up", text='Up    ', command=self.upward_stretch)
         self.up_rb.grid(row=2, column=1, sticky='e')
-        
+
         self.down_rb = ttk.Radiobutton(self.widget_frame, variable=self.orientation,
                                        value="down", text='Down', command=self.downward_stretch)
         self.down_rb.grid(row=3, column=1, sticky='e')
-        
+
         self.left_rb = ttk.Radiobutton(self.widget_frame, variable=self.orientation,
                                        value="left", text='Left', command=self.left_stretch)
         self.left_rb.grid(row=2, column=2, sticky='w')
-        
+
         self.right_rb = ttk.Radiobutton(self.widget_frame, variable=self.orientation,
                                         value="right", text='Right', command=self.right_stretch)
         self.right_rb.grid(row=3, column=2, sticky='w')
@@ -130,7 +128,7 @@ class Gui:
         self.processed_image = build_new_image(index_list, img_array, starting_pixel)
         self.processed_image = self.processed_image.rotate(270, expand=True)
         self.display_image()
-        self.unprocessed_jpg = self.unprocessed_jpg.rotate(270, expand=True)        
+        self.unprocessed_jpg = self.unprocessed_jpg.rotate(270, expand=True)
 
     def open_image(self):
         filename = filedialog.askopenfilename()
@@ -145,7 +143,7 @@ class Gui:
 
         # image resizing for large images
         max_height = self.screen_height - 100
-        max_width = self.screen_width - 228
+        max_width = self.screen_width - 225
         img_height = jpg_image.size[1]
         if img_height > max_height:
             height_percent = max_height / img_height
@@ -160,11 +158,11 @@ class Gui:
         # solves problem of empty space in frame for different shaped images
         for widget in self.image_frame.winfo_children():
             widget.destroy()
-        
+
         self.unprocessed_jpg = jpg_image
         self.vertical_slider = ttk.Scale(self.image_frame, orient='vertical',
-                                               from_=1, to=self.unprocessed_jpg.size[1],
-                                               length=self.unprocessed_jpg.size[1])
+                                         from_=1, to=self.unprocessed_jpg.size[1],
+                                         length=self.unprocessed_jpg.size[1])
         self.vertical_slider.grid(row=0, column=1)
         self.vertical_slider.set(100)
 
@@ -177,21 +175,35 @@ class Gui:
 
         self.vertical_index_list = list(range(0, self.unprocessed_jpg.size[1]))
         self.horizontal_index_list = list(range(0, self.unprocessed_jpg.size[0]))
-        
+
         self.downward_stretch()
 
     def save_image(self):
-        save_filename = filedialog.asksaveasfilename(defaultextension='*.jpg')
-        self.processed_image.save(save_filename)
+        '''asks user for a directory to save image to'''
+        orientation = self.orientation.get()
+        if orientation in ('up', 'down'):
+            filename = '/IIS_intensity{}_starting{}'.format(self.intensity_value.get(),
+                                                            int(self.vertical_slider.get()))
+            directory = filedialog.askdirectory()
+            self.processed_image.save(directory + filename + '.jpg')
+        else:
+            filename = '/IIS_intensity{}_starting{}'.format(self.intensity_value.get(),
+                                                            int(self.horizontal_slider.get()))
+            directory = filedialog.askdirectory()
+            self.processed_image.save(directory + filename + '.jpg')
+
+        # # old approach using 'save_as'
+        # save_filename = filedialog.asksaveasfilename(defaultextension='*.jpg')
+        # self.processed_image.save(save_filename)
 
     def random_stretch(self):
         direction = random.choice(['up', 'down', 'left', 'right'])
-        if direction == 'up' or direction == 'down':
+        if direction in ('up', 'down'):
             self.vertical_slider.set(random.randint(1, self.unprocessed_jpg.size[1]))
         else:
             self.horizontal_slider.set(random.randint(1, self.unprocessed_jpg.size[0]))
-        
-        self.intensity_value.set(random.randint(6,13))
+
+        self.intensity_value.set(random.randint(6, 13))
         self.orientation.set(direction)
         self.update_stretch()
 
