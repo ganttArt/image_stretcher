@@ -198,10 +198,15 @@ class Gui:
 
     def random_stretch(self):
         direction = random.choice(['up', 'down', 'left', 'right'])
-        if direction in ('up', 'down'):
-            self.vertical_slider.set(random.randint(1, self.unprocessed_jpg.size[1]))
+
+        if direction == 'up':
+            self.vertical_slider.set(random.randint(80, self.unprocessed_jpg.size[1]))
+        elif direction == 'down':
+            self.vertical_slider.set(random.randint(1, self.unprocessed_jpg.size[1]-80))
+        elif direction == 'left':
+            self.horizontal_slider.set(random.randint(80, self.unprocessed_jpg.size[0]))
         else:
-            self.horizontal_slider.set(random.randint(1, self.unprocessed_jpg.size[0]))
+            self.horizontal_slider.set(random.randint(1, self.unprocessed_jpg.size[0]-80))
 
         self.intensity_value.set(random.randint(6, 13))
         self.orientation.set(direction)
