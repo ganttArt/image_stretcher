@@ -137,13 +137,13 @@ class Gui:
             jpg_image = Image.open(filename)
             if jpg_image.format != 'JPEG':
                 jpg_image = jpg_image.convert('RGB')
-        except Exception as ex:
-            print(ex)
-            messagebox.showerror("Error", "Image files only please!")
+        except Exception:
+            messagebox.showerror("Error", "File type not compatible!")
+            raise
 
         # image resizing for large images
         max_height = self.screen_height - 100
-        max_width = self.screen_width - 225
+        max_width = self.screen_width - 230
         img_height = jpg_image.size[1]
         if img_height > max_height:
             height_percent = max_height / img_height

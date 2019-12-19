@@ -1,14 +1,13 @@
 Next:
-resizing for images too large for the screen
-
-keeping the opening image around or just the open image if the new open is cancelled or doesn't work out
 
 improving random to get more of the types of images I would like to see.
 
+-------
+writing tests
+
 improving time taken to stretch
+is there a better and also faster way of doing things than using instance attributes?
 
-image save that includes intensity value and starting point
-
-
+-------
 Someday ?:
 adding fibonacci based gradient to stretch
