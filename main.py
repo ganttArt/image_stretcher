@@ -3,7 +3,6 @@ from tkinter import ttk, filedialog, messagebox, StringVar, Tk
 from PIL import Image, ImageTk
 from stretching_functions import create_np_array, create_index_list, build_new_image
 
-
 class Gui:
     def __init__(self, master):
 
@@ -99,6 +98,7 @@ class Gui:
         index_list = create_index_list(int(self.intensity_value.get()))
         self.processed_image = build_new_image(index_list, img_array, self.vertical_slider.get())
         self.display_image()
+
 
     def upward_stretch(self):
         self.unprocessed_jpg = self.unprocessed_jpg.rotate(180)
