@@ -1,1 +1,0 @@
-Need to change placement of image resizing from open_image() to display_image()

@@ -1,9 +1,7 @@
 Next:
-Refactoring and cleaning up code for those who might see it
-Updating readme on GitHub.
+
 Turning it into a desktop application
 
 
 Someday ?:
 - writing tests and improving time taken to stretch
-- Instead of doing image resizing for large images, just do window resizing, but this will definitely require a faster algorithm.

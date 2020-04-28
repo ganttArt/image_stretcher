@@ -185,16 +185,12 @@ class Gui:
             filename = '/IIS_intensity{}_starting{}'.format(self.intensity_value.get(),
                                                             int(self.vertical_slider.get()))
             directory = filedialog.askdirectory()
-            self.processed_image.save(directory + filename + '.jpg')
+            self.processed_image.save(directory + filename + '.png')
         else:
             filename = '/IIS_intensity{}_starting{}'.format(self.intensity_value.get(),
                                                             int(self.horizontal_slider.get()))
             directory = filedialog.askdirectory()
-            self.processed_image.save(directory + filename + '.jpg')
-
-        # # old approach using 'save_as'
-        # save_filename = filedialog.asksaveasfilename(defaultextension='*.jpg')
-        # self.processed_image.save(save_filename)
+            self.processed_image.save(directory + filename + '.png')
 
     def random_stretch(self):
         direction = random.choice(['up', 'down', 'left', 'right'])
