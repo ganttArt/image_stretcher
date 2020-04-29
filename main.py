@@ -211,6 +211,7 @@ class Gui:
 
 def main():
     root = Tk()
+    root.title('Image Stretcher')
     Gui(root)
     root.mainloop()
 
