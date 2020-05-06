@@ -1,5 +1,5 @@
 ![](ImageStretcherApp.jpeg)<br/>
-# Image Stretcher<br/><br/>
+# Image Stretcher
 Application built using Python, PIL, NumPy and Tkinter (GUI).<br/>
 Incrementally stretches an image in any cardinal direction, starting at any pixel of your choice.<br/>
 
