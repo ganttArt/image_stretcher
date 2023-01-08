@@ -1,10 +1,10 @@
 from PIL import Image
-from directional_stretch import downward_stretch
+from directional_stretch import downward_stretch, upward_stretch
 
 # Set stretching variables:
 IMAGE = "test.jpg"
 DIRECTION = 'right' # left, right, up, down
-STARTING_POINT = 0 # Range: 0 -> height/width of image
+STARTING_POINT = 100 # Range: 0 -> height/width of image
 STRETCH_STRENGTH = 13 # 1 -> 13
 
 
@@ -17,7 +17,7 @@ def main():
             print('File type not compatible')
             return
         
-        stretched_image = downward_stretch(image, STRETCH_STRENGTH, STARTING_POINT)
+        stretched_image = upward_stretch(image, STRETCH_STRENGTH, STARTING_POINT)
         stretched_image.show()
 
 
