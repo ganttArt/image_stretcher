@@ -1,7 +1,0 @@
-Next:
-
-Turning it into a desktop application
-
-
-Someday ?:
-- writing tests and improving time taken to stretch
