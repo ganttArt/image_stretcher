@@ -18,15 +18,15 @@ def upward_stretch(image, intensity, start):
     return processed_image
 
 
-def right_stretch(self):
-    self.unprocessed_jpg = self.unprocessed_jpg.rotate(270, expand=True)
-    img_array = create_np_array(self.unprocessed_jpg)
-    index_list = create_index_list(int(self.intensity_value.get()))
-    self.processed_image = build_new_image(
-        index_list, img_array, self.horizontal_slider.get())
-    self.processed_image = self.processed_image.rotate(90, expand=True)
-    self.display_image()
-    self.unprocessed_jpg = self.unprocessed_jpg.rotate(90, expand=True)
+def right_stretch(image, intensity, start):
+    unprocessed_jpg = image.rotate(270, expand=True)
+    img_array = create_np_array(unprocessed_jpg)
+    index_list = create_index_list(intensity)
+    processed_image = build_new_image(
+        index_list, img_array, start)
+    processed_image = processed_image.rotate(90, expand=True)
+    return processed_image
+
 
 
 def left_stretch(self):
