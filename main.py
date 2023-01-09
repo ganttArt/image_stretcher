@@ -5,7 +5,7 @@ from image_stretching.image_stretch import stretch_image
 IMAGE = "test.jpg"
 DIRECTION = 'down' # left, right, up, down
 STARTING_POINT = 100 # Range: 0 -> height/width of image
-STRETCH_STRENGTH = 10 # 1 -> 13
+INTENSITY = 10 # 1 -> 13
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
             print('File type not compatible')
             return
         
-        stretched_image = stretch_image(image, STRETCH_STRENGTH, STARTING_POINT, DIRECTION)
+        stretched_image = stretch_image(image, INTENSITY, STARTING_POINT, DIRECTION)
         stretched_image.show()
 
 
