@@ -1,14 +1,6 @@
 # Image Stretcher
 
-![App](/Assets/ImageStretcherApp.jpeg)
-
-Application built using Python, PIL, NumPy and Tkinter (GUI).
-Incrementally stretches an image in any cardinal direction, starting at any pixel of your choice.
-
-Requirements: Python3, Pillow, Numpy, Tkinter
-
-To operate the stretcher: Choose your direction, move the slider to the desired stretch-starting place, and press the Stretch! button.
-Alternatively, you can just push the random button these choices will be made for you.
+Python script that incrementally stretches an image in any direction, starting at any pixel of your choice.
 
 ## Examples
 
@@ -27,15 +19,7 @@ pip install -r requirements.txt
 
 ## Run
 
-Start:
-
-```bash
-. venv/bin/activate
-python main.py
-```
-
-Stop:
-
-```bash
-deactivate
-```
+- `. venv/bin/activate`
+- Move desired image into image_stretcher directory
+- Update variables on [main.py](main.py) to include your image and desired settings (starting point, direction, stretch intensity)
+- run `python main.py`
