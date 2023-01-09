@@ -1,7 +1,7 @@
 import random
 from tkinter import ttk, filedialog, messagebox, StringVar, Tk
 from PIL import Image, ImageTk
-from stretching_functions import create_np_array, create_index_list, build_new_image
+from image_stretching.stretching_helpers import create_np_array, create_index_list, build_new_image
 
 class Gui:
     def __init__(self, master):

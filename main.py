@@ -1,11 +1,11 @@
 from PIL import Image
-from directional_stretch import stretch_image
+from image_stretching.image_stretch import stretch_image
 
 # Set stretching variables:
 IMAGE = "test.jpg"
 DIRECTION = 'down' # left, right, up, down
 STARTING_POINT = 100 # Range: 0 -> height/width of image
-STRETCH_STRENGTH = 3 # 1 -> 13
+STRETCH_STRENGTH = 10 # 1 -> 13
 
 
 def main():
